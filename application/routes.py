@@ -8,17 +8,14 @@ from application import app
 def home():
     return render_template('home.html', title='Home')
 
-@app.route('/')
 @app.route('/about')
 def about():
     return render_template('about.html', title='about')
 
-@app.route('/')
 @app.route('/login')
-def about():
+def login():
     return render_template('login.html', title='login')
 
-@app.route('/')
 @app.route('/register')
 def register():
     return render_template('register.html', title='register')
