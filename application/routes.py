@@ -3,25 +3,12 @@ from flask import render_template
 # import the app object from the ./application/__init__.py
 from application import app
 # define routes for / & /home, this function will be called when these are accessed
-
-blogData = [
-    {  
-        "name": {"first":"Wasim", "last":"Danyal"},
-        "title":"First Post",
-        "content":"My first blog post about Flask"
-    },
-    {   
-        "name": {"first":"Wasim", "last":"Danyal"},
-        "title":"Second Post",
-        "content":"Even more info"
-    }
-]
-
-
+from application.models import Posts
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html', title='Home', posts=blogData)
+    postData = Posts.query.all()
+    return render_template('home.html', title='Home', post=postData)
 
 @app.route('/about')
 def about():
