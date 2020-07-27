@@ -1,7 +1,7 @@
-from flask import render_template, redirect, url_for, request
 from application import app, db, bcrypt
-from application.models import Posts, Users
+from flask import render_template, redirect, url_for, request
 from application.forms import PostForm, RegistrationForm, LoginForm
+from application.models import Posts, Users
 from flask_login import login_user, current_user, logout_user, login_required
 
 
@@ -67,4 +67,7 @@ def post():
 
     return render_template('post.html', title='Post', form=form)
 
-
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
