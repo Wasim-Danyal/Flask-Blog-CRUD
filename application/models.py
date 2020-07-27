@@ -1,4 +1,5 @@
-from application import db
+from application import db, login_manager
+from flask_login import UserMixin
 
 class Posts(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -23,4 +24,6 @@ class Users(db.Model):
             'UserID: ', str(self.id), '\r\n',
             'Email: ', self.email
             ])
+
+
 
