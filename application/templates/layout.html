@@ -5,12 +5,18 @@
 </head>
 <strong><nav>
 <ul class="menu">
-<a href="{{ url_for('home') }}">Home</a>
-<a href="{{ url_for('about') }}">About</a>
-<a href="{{ url_for('register') }}">Register</a>
-<a href="{{ url_for('login') }}">Login</a>
-<a href="{{ url_for('post') }}">Post</a>
-<a href="{{ url_for('account') }}">Account</a>
+	{% if current_user.is_authenticated %}
+	<a href="{{ url_for('home') }}">Home</a>
+	<a href="{{ url_for('about') }}">About</a>
+	<a href="{{ url_for('register') }}">Register</a>
+	<a href="{{ url_for('post') }}">Post</a>
+	<a href="{{ url_for('account') }}">Account</a>
+	{% else %}
+	<a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('register') }}">Register</a>
+        <a href="{{ url_for('login') }}">Login</a>
+	{% endif %}
 </ul>
 </nav></strong>
 <body>
