@@ -33,18 +33,24 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hash_pw = bcrypt.generate_password_hash(form.password.data)
+	if current_user.is_authenticated:
+		return redirect(url_for('home'))
+	form = RegistrationForm()
+	if form.validate_on_submit():
+		hash_pw = bcrypt.generate_password_hash(form.password.data)
+		user = Users(
+			first_name=form.first_name.data,
+			last_name=form.last_name.data,
+			email=form.email.data,
+			password=hash_pw
+			)
 
-        user = Users(email=form.email.data, password=hash_pw)
-        
-        db.session.add(user)
-        db.session.commit()
+		db.session.add(user)
+		db.session.commit()
 
-        return redirect(url_for('post'))
+		return redirect(url_for('post'))
 
-    return render_template('register.html', title='register', form=form)
+	return render_template('register.html', title='Register', form=form)
 
 @app.route('/post', methods=['GET', 'POST'])
 @login_required
@@ -52,10 +58,10 @@ def post():
     form = PostForm()
     if form.validate_on_submit():
         postData = Posts(
-            first_name = form.first_name.data,
-            last_name = form.last_name.data,
-            title = form.title.data,
-            content = form.content.data
+                title=form.title.data,
+		content=form.content.data,
+		author=current_user
+
         )
 
         db.session.add(postData)
