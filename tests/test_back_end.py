@@ -13,7 +13,7 @@ class TestBase(TestCase):
 
         # pass in configurations for test database
         config_name = 'testing'
-        app.config.update(SQLALCHEMY_DATABASE_URI=getenv('35.246.70.110'),
+        app.config.update(SQLALCHEMY_DATABASE_URI=getenv('TEST_DB_URI'),
                 SECRET_KEY=getenv('TEST_SECRET_KEY'),
                 WTF_CSRF_ENABLED=False,
                 DEBUG=True
@@ -59,6 +59,10 @@ class TestViews(TestBase):
         response = self.client.get(url_for('home'))
         self.assertEqual(response.status_code, 200)
 
+
+
+
+
 class TestPosts(TestBase):
 
     def test_add_new_post(self):
@@ -66,6 +70,14 @@ class TestPosts(TestBase):
         Test that when I add a new post, I am redirected to the homepage with the new post visible
         """
         with self.client:
+            self.client.post(
+                '/login',
+                data=dict(
+                    email='admin@admin.com',
+                    password='admin2016'
+                ),
+                follow_redirects=True
+            )
             response = self.client.post(
                 '/post',
                 data=dict(
